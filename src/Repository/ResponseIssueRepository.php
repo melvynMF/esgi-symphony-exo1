@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ResponseIssue;
+use App\Entity\IssueResponses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method ResponseIssue|null find($id, $lockMode = null, $lockVersion = null)
- * @method ResponseIssue|null findOneBy(array $criteria, array $orderBy = null)
- * @method ResponseIssue[]    findAll()
- * @method ResponseIssue[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method IssueResponses|null find($id, $lockMode = null, $lockVersion = null)
+ * @method IssueResponses|null findOneBy(array $criteria, array $orderBy = null)
+ * @method IssueResponses[]    findAll()
+ * @method IssueResponses[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ResponseIssueRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ResponseIssue::class);
+        parent::__construct($registry, IssueResponses::class);
     }
 
     // /**
-    //  * @return ResponseIssue[] Returns an array of ResponseIssue objects
+    //  * @return IssueResponses[] Returns an array of IssueResponses objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ResponseIssueRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ResponseIssue
+    public function findOneBySomeField($value): ?IssueResponses
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,6 +34,28 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Issue", mappedBy="user")
+     */
+    private $issues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\IssueComments", mappedBy="user")
+     */
+    private $commentIssues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FaqComment", mappedBy="userId")
+     */
+    private $commentFaqs;
+
+    public function __construct()
+    {
+        $this->issues = new ArrayCollection();
+        $this->commentIssues = new ArrayCollection();
+        $this->commentFaqs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +131,98 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Issue[]
+     */
+    public function getIssues(): Collection
+    {
+        return $this->issues;
+    }
+
+    public function addIssue(Issue $issue): self
+    {
+        if (!$this->issues->contains($issue)) {
+            $this->issues[] = $issue;
+            $issue->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIssue(Issue $issue): self
+    {
+        if ($this->issues->contains($issue)) {
+            $this->issues->removeElement($issue);
+            // set the owning side to null (unless already changed)
+            if ($issue->getUser() === $this) {
+                $issue->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentIssues[]
+     */
+    public function getCommentIssues(): Collection
+    {
+        return $this->commentIssues;
+    }
+
+    public function addCommentIssue(CommentIssues $commentIssue): self
+    {
+        if (!$this->commentIssues->contains($commentIssue)) {
+            $this->commentIssues[] = $commentIssue;
+            $commentIssue->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentIssue(CommentIssues $commentIssue): self
+    {
+        if ($this->commentIssues->contains($commentIssue)) {
+            $this->commentIssues->removeElement($commentIssue);
+            // set the owning side to null (unless already changed)
+            if ($commentIssue->getUser() === $this) {
+                $commentIssue->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentFaq[]
+     */
+    public function getCommentFaqs(): Collection
+    {
+        return $this->commentFaqs;
+    }
+
+    public function addCommentFaq(CommentFaq $commentFaq): self
+    {
+        if (!$this->commentFaqs->contains($commentFaq)) {
+            $this->commentFaqs[] = $commentFaq;
+            $commentFaq->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentFaq(CommentFaq $commentFaq): self
+    {
+        if ($this->commentFaqs->contains($commentFaq)) {
+            $this->commentFaqs->removeElement($commentFaq);
+            // set the owning side to null (unless already changed)
+            if ($commentFaq->getUserId() === $this) {
+                $commentFaq->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }

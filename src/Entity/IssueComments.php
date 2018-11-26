@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentIssuesRepository")
  */
-class CommentIssues
+class IssueComments
 {
     /**
      * @ORM\Id()
@@ -44,9 +44,14 @@ class CommentIssues
     private $updatedAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ResponseIssue", mappedBy="commentIssueId")
+     * @ORM\ManyToMany(targetEntity="App\Entity\IssueResponses", mappedBy="commentIssueId")
      */
     private $responseIssues;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentIssues")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -119,14 +124,14 @@ class CommentIssues
     }
 
     /**
-     * @return Collection|ResponseIssue[]
+     * @return Collection|IssueResponses[]
      */
     public function getResponseIssues(): Collection
     {
         return $this->responseIssues;
     }
 
-    public function addResponseIssue(ResponseIssue $responseIssue): self
+    public function addResponseIssue(IssueResponses $responseIssue): self
     {
         if (!$this->responseIssues->contains($responseIssue)) {
             $this->responseIssues[] = $responseIssue;
@@ -136,12 +141,24 @@ class CommentIssues
         return $this;
     }
 
-    public function removeResponseIssue(ResponseIssue $responseIssue): self
+    public function removeResponseIssue(IssueResponses $responseIssue): self
     {
         if ($this->responseIssues->contains($responseIssue)) {
             $this->responseIssues->removeElement($responseIssue);
             $responseIssue->removeCommentIssueId($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
