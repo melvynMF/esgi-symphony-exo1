@@ -39,9 +39,22 @@ class Issue
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CommentIssues", mappedBy="issueId")
+     * @ORM\OneToMany(targetEntity="App\Entity\IssueComments", mappedBy="issueId")
      */
     private $commentIssues;
+
+    /**
+     * @var int
+     * @ORM\OneToOne(targetEntity="App\Entity\Status")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    private $statusId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="issues")
+     */
+    private $user;
+
 
     public function __construct()
     {
@@ -102,14 +115,14 @@ class Issue
     }
 
     /**
-     * @return Collection|CommentIssues[]
+     * @return Collection|IssueComments[]
      */
     public function getCommentIssues(): Collection
     {
         return $this->commentIssues;
     }
 
-    public function addCommentIssue(CommentIssues $commentIssue): self
+    public function addCommentIssue(IssueComments $commentIssue): self
     {
         if (!$this->commentIssues->contains($commentIssue)) {
             $this->commentIssues[] = $commentIssue;
@@ -119,7 +132,7 @@ class Issue
         return $this;
     }
 
-    public function removeCommentIssue(CommentIssues $commentIssue): self
+    public function removeCommentIssue(IssueComments $commentIssue): self
     {
         if ($this->commentIssues->contains($commentIssue)) {
             $this->commentIssues->removeElement($commentIssue);
@@ -130,5 +143,33 @@ class Issue
         }
 
         return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusId(): int
+    {
+        return $this->statusId;
+    }
+
+    /**
+     * @param int $statusId
+     */
+    public function setStatusId(int $statusId): void
+    {
+        $this->statusId = $statusId;
     }
 }

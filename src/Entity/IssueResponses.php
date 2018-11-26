@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResponseIssueRepository")
  */
-class ResponseIssue
+class IssueResponses
 {
     /**
      * @ORM\Id()
@@ -19,7 +19,7 @@ class ResponseIssue
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\CommentIssues", inversedBy="responseIssues")
+     * @ORM\ManyToMany(targetEntity="App\Entity\IssueComments", inversedBy="responseIssues")
      */
     private $commentIssueId;
 
@@ -49,14 +49,14 @@ class ResponseIssue
     }
 
     /**
-     * @return Collection|CommentIssues[]
+     * @return Collection|IssueComments[]
      */
     public function getCommentIssueId(): Collection
     {
         return $this->commentIssueId;
     }
 
-    public function addCommentIssueId(CommentIssues $commentIssueId): self
+    public function addCommentIssueId(IssueComments $commentIssueId): self
     {
         if (!$this->commentIssueId->contains($commentIssueId)) {
             $this->commentIssueId[] = $commentIssueId;
@@ -65,7 +65,7 @@ class ResponseIssue
         return $this;
     }
 
-    public function removeCommentIssueId(CommentIssues $commentIssueId): self
+    public function removeCommentIssueId(IssueComments $commentIssueId): self
     {
         if ($this->commentIssueId->contains($commentIssueId)) {
             $this->commentIssueId->removeElement($commentIssueId);
