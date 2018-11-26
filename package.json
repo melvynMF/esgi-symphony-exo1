@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.22.1",
+    "boostrap": "^2.0.0",
+    "bootstrap": "^4.1.3",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6"
+  },
+  "dependencies": {
+    "webpack-notifier": "^1.7.0"
+  }
+}
