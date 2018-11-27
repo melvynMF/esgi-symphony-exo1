@@ -17,6 +17,8 @@ class IssueController extends AbstractController
 {
     /**
      * @Route("/", name="issue_index", methods="GET")
+     * @param IssueRepository $issueRepository
+     * @return Response
      */
     public function index(IssueRepository $issueRepository): Response
     {
