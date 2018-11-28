@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Issue;
+use App\Entity\Status;
 use App\Form\IssueType;
 use App\Repository\IssueRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,8 @@ class IssueController extends AbstractController
 
     /**
      * @Route("/new", name="issue_new", methods="GET|POST")
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -36,6 +39,9 @@ class IssueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $status = $em->getRepository(Status::class)->findOneBy(["title" => "in progress"]);
+            $issue->setStatusId($status);
+            $issue->setUser($this->getUser());
             $em->persist($issue);
             $em->flush();
 
@@ -49,7 +55,9 @@ class IssueController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="issue_show", methods="GET")
+     * @Route("/{slug}", name="issue_show", methods="GET")
+     * @param Issue $issue
+     * @return Response
      */
     public function show(Issue $issue): Response
     {
@@ -57,7 +65,7 @@ class IssueController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="issue_edit", methods="GET|POST")
+     * @Route("/{slug}/edit", name="issue_edit", methods="GET|POST")
      */
     public function edit(Request $request, Issue $issue): Response
     {

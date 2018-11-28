@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
@@ -35,11 +36,13 @@ class Issue
     private $body;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
@@ -53,20 +56,27 @@ class Issue
      * @var int
      * @ORM\OneToOne(targetEntity="App\Entity\Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     *
      */
     private $statusId;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="issues")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * @Gedmo\Slug(fields={"title", "createdAt"}, unique=true, dateFormat="d/m/Y H-i-s")
+     * @ORM\Column(length=128, unique=true)
+     */
+
+    private $slug;
 
 
     public function __construct()
     {
         $this->commentIssues = new ArrayCollection();
-        $this->setCreatedAt(new \DateTime());
-        $this->setStatusId(1);
     }
 
     public function getId(): ?int
@@ -158,7 +168,7 @@ class Issue
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
@@ -176,8 +186,16 @@ class Issue
     /**
      * @param int $statusId
      */
-    public function setStatusId(int $statusId): void
+    public function setStatusId(Status $statusId): void
     {
         $this->statusId = $statusId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

@@ -25,8 +25,8 @@
                 <td>{{ issue.createdAt ? issue.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ issue.updatedAt ? issue.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('issue_show', {'id': issue.id}) }}">show</a>
-                    <a href="{{ path('issue_edit', {'id': issue.id}) }}">edit</a>
+                    <a href="{{ path('issue_show', {'slug': issue.slug}) }}">show</a>
+                    <a href="{{ path('issue_edit', {'slug': issue.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

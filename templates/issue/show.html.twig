@@ -32,7 +32,7 @@
 
     <a href="{{ path('issue_index') }}">back to list</a>
 
-    <a href="{{ path('issue_edit', {'id': issue.id}) }}">edit</a>
+    <a href="{{ path('issue_edit', {'slug': issue.slug}) }}">edit</a>
 
     {{ include('issue/_delete_form.html.twig') }}
 {% endblock %}
