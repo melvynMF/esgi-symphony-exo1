@@ -41,7 +41,6 @@ class IssueController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $status = $em->getRepository(Status::class)->findOneBy(["title" => "in progress"]);
             $issue->setStatusId($status);
-            $issue->setUser($this->getUser());
             $em->persist($issue);
             $em->flush();
 

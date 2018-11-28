@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IssueRepository")
- *
+ * @Gedmo\Loggable
  */
 class Issue
 {
@@ -24,14 +24,14 @@ class Issue
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Length(max="255")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private $body;
 
