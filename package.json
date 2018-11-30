@@ -7,6 +7,10 @@
     "sass-loader": "^6.0.6"
   },
   "dependencies": {
+    "jquery": "^3.3.1",
+    "materialize": "^1.0.0",
+    "materialize-css": "^1.0.0",
+    "materialize-js": "^1.0.0",
     "webpack-notifier": "^1.7.0"
   }
 }

@@ -7,8 +7,11 @@
 
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/global.scss');
-
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// var $ = require('jquery');
+ var $ = require('jquery');
+require('../../node_modules/materialize-css/dist/js/materialize.min');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+$(document).ready(function() {
+    $('input#input_text').characterCounter();
+});
